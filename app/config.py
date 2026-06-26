@@ -1,4 +1,4 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from functools import lru_cache
 
 
@@ -26,8 +26,7 @@ class Settings(BaseSettings):
     daily_job_search_hour: int = 8  # 8 AM UTC
     max_jobs_per_search: int = 50
 
-    class Config:
-        env_file = ".env"
+    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
 
 @lru_cache
