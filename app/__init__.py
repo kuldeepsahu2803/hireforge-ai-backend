@@ -1,0 +1,1 @@
+# HireForge AI - app package
