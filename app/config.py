@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic import BaseSettings
 from functools import lru_cache
 
 
@@ -23,15 +23,14 @@ class Settings(BaseSettings):
     vapid_email: str = "mailto:admin@hireforge.ai"
 
     # App settings
-    daily_job_search_hour: int = 8  # 8 AM UTC
+    daily_job_search_hour: int = 8
     max_jobs_per_search: int = 50
 
-    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+    class Config:
+        env_file = ".env"
+        case_sensitive = False
 
 
-@lru_cache
+@lru_cache()
 def get_settings() -> Settings:
     return Settings()
-
-
-settings = get_settings()
