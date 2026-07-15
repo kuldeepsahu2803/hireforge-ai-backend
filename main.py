@@ -9,7 +9,6 @@ from app.scheduler import start_scheduler
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Start background scheduler
     scheduler_task = asyncio.create_task(start_scheduler())
     yield
     scheduler_task.cancel()
@@ -20,25 +19,27 @@ app = FastAPI(
     description="AI-powered job hunting and resume tailoring backend",
     version="1.0.0",
     lifespan=lifespan,
+    docs_url="/docs",
+    redoc_url=None,
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Restrict to your Lovable domain in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 app.include_router(jobs.router, prefix="/api/jobs", tags=["Jobs"])
-app.include_router(tailor.router, prefix="/api/tailor", tags=["Resume Tailor"])
+app.include_router(tailor.router, prefix="/api/tailor", tags=["Tailor"])
 app.include_router(profile.router, prefix="/api/profile", tags=["Profile"])
 app.include_router(notifications.router, prefix="/api/notifications", tags=["Notifications"])
 
 
 @app.get("/")
 async def root():
-    return {"status": "HireForge AI backend is running"}  
+    return {"status": "HireForge AI backend is running"}
 
 
 @app.get("/health")
