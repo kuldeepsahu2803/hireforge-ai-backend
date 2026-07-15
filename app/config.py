@@ -1,4 +1,4 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from functools import lru_cache
 
 
@@ -14,10 +14,10 @@ class Settings(BaseSettings):
     # JSearch (RapidAPI)
     jsearch_api_key: str
 
-    # Apify (optional - for LinkedIn scraping)
+    # Apify (optional)
     apify_token: str = ""
 
-    # Web Push VAPID keys
+    # VAPID keys (optional)
     vapid_private_key: str = ""
     vapid_public_key: str = ""
     vapid_email: str = "mailto:admin@hireforge.ai"
@@ -26,11 +26,12 @@ class Settings(BaseSettings):
     daily_job_search_hour: int = 8
     max_jobs_per_search: int = 50
 
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    model_config = {"env_file": ".env", "case_sensitive": False}
 
 
 @lru_cache()
 def get_settings() -> Settings:
     return Settings()
+
+
+settings = get_settings()
