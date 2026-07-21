@@ -15,7 +15,7 @@ class ResumeExtractRequest(BaseModel):
 async def extract_resume(req: ResumeExtractRequest):
     try:
         genai.configure(api_key=os.environ["GEMINI_API_KEY"])
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("gemini-2.0-flash")
 
         pdf_bytes = base64.b64decode(req.pdf_base64)
 
