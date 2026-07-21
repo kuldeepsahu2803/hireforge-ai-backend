@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import asyncio
 
-from app.routers import jobs, tailor, profile, notifications
+from app.routers import jobs, tailor, profile, notifications, resume
 from app.scheduler import start_scheduler
 
 
@@ -35,7 +35,7 @@ app.include_router(jobs.router, prefix="/api/jobs", tags=["Jobs"])
 app.include_router(tailor.router, prefix="/api/tailor", tags=["Tailor"])
 app.include_router(profile.router, prefix="/api/profile", tags=["Profile"])
 app.include_router(notifications.router, prefix="/api/notifications", tags=["Notifications"])
-
+app.include_router(resume.router)
 
 @app.get("/")
 async def root():
